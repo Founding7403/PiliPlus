@@ -22,7 +22,7 @@ abstract final class ThemeUtils {
     ThemeData themeData = ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
-      fontFamily: 'sans-serif',
+      fontFamilyFallback: const ['sans-serif', 'OPPO Sans'],
       textTheme: fontWeight == null
           ? null
           : TextTheme(
