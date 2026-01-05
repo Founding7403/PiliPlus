@@ -22,6 +22,7 @@ abstract final class ThemeUtils {
     ThemeData themeData = ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
+      fontFamily: 'sans-serif',
       textTheme: fontWeight == null
           ? null
           : TextTheme(
