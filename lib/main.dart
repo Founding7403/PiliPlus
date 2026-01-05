@@ -264,21 +264,39 @@ class MyApp extends StatelessWidget {
     final dynamicColor = Pref.dynamicColor && _light != null && _dark != null;
     late final brandColor = colorThemeTypes[Pref.customColor].color;
     late final variant = FlexSchemeVariant.values[Pref.schemeVariant];
+
     return GetMaterialApp(
       title: Constants.appName,
+      
+      // 【修改点 1】强制覆盖亮色主题字体
       theme: ThemeUtils.getThemeData(
         colorScheme: dynamicColor
             ? _light!
             : brandColor.asColorSchemeSeed(variant, .light),
         isDynamic: dynamicColor,
+      ).copyWith(
+        fontFamily: 'sans-serif', // 核心：强制指定安卓默认无衬线字体
+        textTheme: Typography.material2021(platform: TargetPlatform.android).black.apply(
+          fontFamily: 'sans-serif', // 双重保险：强制应用到所有文字样式
+          fontFamilyFallback: ['sans-serif'], 
+        ),
       ),
+
+      // 【修改点 2】强制覆盖暗色主题字体
       darkTheme: ThemeUtils.getThemeData(
         isDark: true,
         colorScheme: dynamicColor
             ? _dark!
             : brandColor.asColorSchemeSeed(variant, .dark),
         isDynamic: dynamicColor,
+      ).copyWith(
+        fontFamily: 'sans-serif', 
+        textTheme: Typography.material2021(platform: TargetPlatform.android).white.apply(
+          fontFamily: 'sans-serif', 
+          fontFamilyFallback: ['sans-serif'],
+        ),
       ),
+
       themeMode: Pref.themeMode,
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
